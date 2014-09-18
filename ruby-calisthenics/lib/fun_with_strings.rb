@@ -1,13 +1,44 @@
 module FunWithStrings
   def palindrome?
-    return true if self.downcase==self.reverse.downcase
+    str = self.delete ",!.*&^%$#@()[]\s;:"
+    return true if str==str.reverse.downcase
     return false
   end
   def count_words
-    # your code here
-  end
+    h = Hash.new(0)
+    arr = self.split.delete ",!.*&^%$#@()[]\s;:"
+    arr.each{|word|
+	newWord = word.downcase
+	h[newWord] += 1	
+    }
+    return h
+  
   def anagram_groups
-    # your code here
+    groups = []
+    hash_array = []
+    words = self.split
+    words.each{|word|
+	t = word.size - 1
+	index = 0
+	h = Hash.new(0)
+	t.times{
+		h[word[index]] += 1
+		index += 1	
+	}	
+	hash_array << h
+    }
+    
+    #index = 0
+    #hash_array.each{
+#	index2 = 0
+#	hash_array.each{
+#	if index != index2
+#		
+#	end
+#	index2 += 1
+ #       }
+#	index += 1
+ #   }
   end
 end
 
