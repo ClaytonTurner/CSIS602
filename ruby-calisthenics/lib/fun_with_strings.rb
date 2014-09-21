@@ -15,30 +15,17 @@ module FunWithStrings
   
   def anagram_groups
     groups = []
-    hash_array = []
     words = self.split
     words.each{|word|
-	t = word.size - 1
-	index = 0
-	h = Hash.new(0)
-	t.times{
-		h[word[index]] += 1
-		index += 1	
+    	anagramsTemp = []
+	words.each{|word2|
+		if word.downcase.split(//).sort==word2.downcase.split(//).sort
+			anagramsTemp << word2
 	}	
-	hash_array << h
+	# By this point, we will have built a single anagram group
+	groups << anagramsTemp
     }
-    
-    #index = 0
-    #hash_array.each{
-#	index2 = 0
-#	hash_array.each{
-#	if index != index2
-#		
-#	end
-#	index2 += 1
- #       }
-#	index += 1
- #   }
+    return groups.uniq
   end
 end
 
