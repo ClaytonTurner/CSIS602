@@ -1,7 +1,7 @@
 require 'rock_paper_scissors'
 require 'debugger'
 
-describe RockPaperScissors do
+describe RockPaperScissors, :pending => true do
   before(:each) do
     @rock = ['Armando','R'] ; @paper = ['Dave','P'] ; @scissors = ['Sam','S']
   end
