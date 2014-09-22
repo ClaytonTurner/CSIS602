@@ -1,6 +1,6 @@
 class Class
   def attr_accessor_with_history(attr_name)
-    attr_reader attr_name
+    attr_reader attr_name.to_s
     attr_reader "#{attr_name}_history"
     class_eval %Q{
       def #{attr_name}=(x)
@@ -9,11 +9,5 @@ class Class
         @#{attr_name} = x
       end
     }
-
-    class_eval do
-      def history(n)
-        instance_variable_get("@#{n}_history")
-      end
-    end
   end
 end

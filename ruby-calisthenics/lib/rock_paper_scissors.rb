@@ -35,10 +35,10 @@ class RockPaperScissors
 
   def self.tournament_winner(tournament)
     #base case - 1 match
-    if tournament[0][0].is_a?(String) #Checking for a name
-	return self.winner(tournament)
+    if tournament[0][0].is_a? String #Checking for a name
+	return self.winner(tournament[0],tournament[1])
     end
-    return self.winner([self.tournament_winner(tournament[0]),self.tournament_winner(tournament[1])])
+    return self.tournament_winner([self.tournament_winner(tournament[0]),self.tournament_winner(tournament[1])])
   end
 
 end

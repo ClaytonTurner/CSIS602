@@ -2,13 +2,11 @@ class RockPaperScissors
   VALID=['R','P','S']
   # Exceptions this class can raise:
   class NoSuchStrategyError < StandardError 
-    message = "Strategy must be one of R,P,S"
-    
     end
 
   def self.winner(player1, player2)
-    raise NoSuchStrategyError unless VALID.include?(player1[1])
-    raise NoSuchStrategyError unless VALID.include?(player2[1])
+    raise NoSuchStrategyError, "Strategy must be one of R,P,S" unless VALID.include?(player1[1])
+    raise NoSuchStrategyError, "Strategy must be one of R,P,S" unless VALID.include?(player2[1])
     if player1[1] == player2[1]
     return player1
     elsif player1[1] == 'R'
@@ -37,8 +35,8 @@ class RockPaperScissors
 
   def self.tournament_winner(tournament)
     #base case - 1 match
-    if tournament[0][0].is_a?(String) #Checking for a name
-	return self.winner(tournament)
+    if tournament[0][0].is_a? String #Checking for a name
+	return self.winner(tournament[0],tournament[1])
     end
     return self.winner([self.tournament_winner(tournament[0]),self.tournament_winner(tournament[1])])
   end
