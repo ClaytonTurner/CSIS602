@@ -1,18 +1,20 @@
 module FunWithStrings
   def palindrome?
-    str = self.delete("\,\.\*\&\^\%\$\#\@\(\)\[\] \;\:")
+    str = self.delete('^a-zA-Z')
+	
+	puts str
     return true if str.downcase==str.reverse.downcase
     return false
   end
   def count_words
     h = Hash.new(0)
-    arr = self.split.delete("\,\.\*\&\^\%\$\#\@\(\)\[\] \;\:")
+    arr = self.delete("^a-zA-Z ").split
     arr.each{|word|
     	newWord = word.downcase
     	h[newWord] += 1	
     }
     return h
-  
+  end
   def anagram_groups
     groups = []
     words = self.split
@@ -35,3 +37,5 @@ end
 class String
   include FunWithStrings
 end
+
+'A man, a plan, a canal -- Panama'.palindrome?

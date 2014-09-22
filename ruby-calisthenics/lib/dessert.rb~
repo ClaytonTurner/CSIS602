@@ -22,6 +22,9 @@ class JellyBean < Dessert
     @name = flavor + " jelly bean"
   end
   def delicious?
-    return true unless @name=="licorice jelly bean"
-  end
+    return true unless @flavor=="licorice"
+	if @flavor=="licorice"
+		return false
+	end
+end
 end
