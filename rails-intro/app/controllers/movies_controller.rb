@@ -19,17 +19,30 @@ class MoviesController < ApplicationController
 
   def sort_trigger
     if params[:sort].nil?
-      @sort = @sort
+      if session[:sort].nil?
+      else
+        @sort = session[:sort]
+        redirect_to movies_path(:sort => session[:sort])
+      end
     else
       @sort = params[:sort]
+      session[:sort] = params[:sort]
       @movies = Movie.order(@sort.to_sym)
     end
   end
 
   def rating_trigger
-    unless params[:ratings].nil?
+    if params[:ratings].nil?
+      if session[:ratings].nil?
+      else
+        #session has a value - use it
+        redirect_to movies_path(:ratings => session[:ratings])
+      end
+    else
+      # params has a value - use it
       ratings_hash = params[:ratings]
       ratings_keys = ratings_hash.keys
+      session[:ratings] = params[:ratings]
       @movies = Movie.find_all_by_rating(ratings_keys)
       @checked_ratings = ratings_keys
     end
