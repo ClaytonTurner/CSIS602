@@ -18,6 +18,7 @@ class MoviesController < ApplicationController
     if session[:ratings].nil?
       ratings_hash = params[:ratings]
     else
+      session[:ratings] = params[:ratings]
       ratings_hash = session[:ratings]
     end
     ratings_keys = ratings_hash.keys
