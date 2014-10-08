@@ -8,22 +8,32 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
-    @sort = params[:sort]
-    @movies = Movie.order(@sort.to_sym) unless @sort.nil?
+    # Sort Behavior
+    self.sort_trigger
+
+    # Ratings Behavior
     @all_ratings = Movie.all_ratings
-    self.rating_trigger unless params[:ratings].nil?
+    @checked_ratings = @all_ratings
+    self.rating_trigger
+  end
+
+  def sort_trigger
+    if params[:sort].nil?
+      @sort = @sort
+    else
+      @sort = params[:sort]
+      @movies = Movie.order(@sort.to_sym)
+    end
   end
 
   def rating_trigger
-    if session[:ratings].nil?
+    unless params[:ratings].nil?
       ratings_hash = params[:ratings]
-    else
-      session[:ratings] = params[:ratings]
-      ratings_hash = session[:ratings]
+      ratings_keys = ratings_hash.keys
+      @movies = Movie.find_all_by_rating(ratings_keys)
+      @checked_ratings = ratings_keys
     end
-    ratings_keys = ratings_hash.keys
-    @movies = Movie.find_all_by_rating(ratings_keys)
-    session[:ratings] = ratings_hash
+    
   end
 
   def new
