@@ -9,7 +9,20 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
     @sort = params[:sort]
-    @movies = Movie.order(@sort.to_sym)
+    @movies = Movie.order(@sort.to_sym) unless @sort.nil?
+    @all_ratings = Movie.all_ratings
+    self.rating_trigger unless params[:ratings].nil?
+  end
+
+  def rating_trigger
+    if session[:ratings].nil?
+      ratings_hash = params[:ratings]
+    else
+      ratings_hash = session[:ratings]
+    end
+    ratings_keys = ratings_hash.keys
+    @movies = Movie.find_all_by_rating(ratings_keys)
+    session[:ratings] = ratings_hash
   end
 
   def new
