@@ -10,34 +10,41 @@ class MoviesController < ApplicationController
     @movies = Movie.all
     self.redirector # Preserves RESTfulness
 
-    # Sort Behavior
-# self.sort_trigger
-
-    # Ratings Behavior
     @all_ratings = Movie.all_ratings
     @checked_ratings = @all_ratings
-    self.rating_trigger
-    self.sort_trigger
+    sort = true if params[:sort].present?
+    ratings = true if params[:ratings].present?
+    if sort && ratings # If we need to handle both
+      self.sort_and_ratings_trigger
+    elsif sort 
+      self.sort_trigger
+    elsif ratings
+      self.rating_trigger
+    else
+    end
+  end
+
+  def sort_and_ratings_trigger
+    @movies = Movie.order(params[:sort].to_sym)
+    @movies = @movies.where(:rating => params[:ratings].keys)
+    session[:sort] = params[:sort]
+    session[:ratings] = params[:ratings]
+    @checked_ratings = params[:ratings].keys
+    @sort = params[:sort]
   end
 
   def sort_trigger
-    # sort has a value, use it
-    if params[:sort].present?
-        @sort = params[:sort]
-        session[:sort] = params[:sort]
-        @movies = Movie.order(@sort.to_sym)
-    end
+     @sort = params[:sort]
+     session[:sort] = params[:sort]
+     @movies = Movie.order(@sort.to_sym)
   end
 
   def rating_trigger
-    # params has a value - use it
-    if params[:ratings].present?
-      ratings_hash = params[:ratings]
-      ratings_keys = ratings_hash.keys
-      session[:ratings] = params[:ratings]
-      @movies = Movie.find_all_by_rating(ratings_keys)
-      @checked_ratings = ratings_keys
-    end
+    ratings_hash = params[:ratings]
+    ratings_keys = ratings_hash.keys
+    session[:ratings] = params[:ratings]
+    @movies = Movie.find_all_by_rating(ratings_keys)
+    @checked_ratings = ratings_keys
   end
 
   def redirector
