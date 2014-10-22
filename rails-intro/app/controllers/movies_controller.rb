@@ -8,6 +8,7 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    flash.keep
     self.redirector # Preserves RESTfulness
 
     @all_ratings = Movie.all_ratings
