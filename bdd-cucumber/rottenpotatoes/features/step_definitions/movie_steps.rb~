@@ -18,11 +18,7 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
   text=page.body
-  first=text.index(e1)
-  second=text.index(e2)
-  assert first<second
-#text=page.body
-  #assert /.*#{e1}.*#{e2}.*/.match(text)
+  assert /.*#{e1}.*#{e2}.*/.match(text)
   #flunk "Unimplemented"
 end
 
