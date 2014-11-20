@@ -1,0 +1,12 @@
+-# in app/views/movies/show.html.haml
+
+%h2 Movies With Same Director as #{@movie.title}
+
+%ul#Movies:
+  - if @movie.director != nil
+    - @movies.each do |movie|
+      %li
+        = movie.title
+  - else
+    = "#{@movie.title} has no director info"
+= link_to 'Back to movie list', movies_path 
